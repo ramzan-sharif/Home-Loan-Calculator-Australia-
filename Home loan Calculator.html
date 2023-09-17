@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Loan Calculator</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+        .calculator-container {
+            font-family: "Roboto", sans-serif;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .calculator-body {
+            width: 75%;
+            color: #1a1311;
+        }
+
+        .calculator-body .title {
+            font-size: 40px;
+            line-height: 28px;
+            color: #3BB4C3;
+        }
+
+        .calculator-body .calculator-values-conatiner {
+            border: 1px solid #e0e7ef;
+            color: #425164;
+            display: flex;
+            margin: 7% 0%;
+        }
+
+        .calculator-values-conatiner .calculator-input-section {
+            background-color: #f8fafe;
+            width: 40%;
+            font-size: 20px;
+            line-height: 31.2px;
+            padding: 60px 60px;
+            box-sizing: border-box;
+        }
+
+        .calculator-input-section .seeking-amount-value {
+            font-size: 32px;
+            line-height: 32px;
+            color: #101c2a;
+        }
+
+        .calculator-input-section #seeking-amount-value-slider {
+            width: 80%;
+        }
+
+        .calculator-input-section .input-type-select {
+            border: 1px solid;
+            background-color: #f8fafe;
+            height: 45px;
+            font-size: 17px;
+            width: 100%;
+            border-color: #cfd8e5;
+            padding-left: 10px;
+        }
+
+        .calculator-input-section #repayment-mode {
+            width: 105%;
+        }
+
+        .calculator-values-conatiner .calculator-output-section {
+            width: 60%;
+            text-align: center;
+            padding: 30px 30px;
+            background: url("./logo.png");
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-size: 200px;
+            background-color: #3BB4C3;
+            color: #fff;
+        }
+
+        .calculator-output-section .output-button a{color: #fff;text-decoration: none;}
+        .calculator-output-section .output-button {
+            color: #fff;
+            background-color: transparent;
+            border-color: #05c2f0;
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 2px solid #fff;
+            cursor: pointer;
+            padding: 0.313rem 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 5px;
+
+        }
+
+        .calculator-output-section #output-values {
+            font-size: 40px;
+            line-height: 72px;
+        }
+
+        .calculator-output-section .btn #btn1 {
+            background-color: #c20000;
+            border: 4px solid;
+            border-color: #c20000;
+            border-radius: 3px;
+        }
+
+        .calculator-output-section .btn #btn2 {
+            border-radius: 3px;
+            height: 40px;
+            border-color: #dedede;
+            padding: 0 40px;
+        }
+
+        .calculator-output-section .btn {
+            margin: 50px 0px;
+        }
+
+        /* -------------------- Media query--------------------- */
+        @media only screen and (max-width: 550px) {
+            .calculator-container {
+                width: 100%;
+                display: block;
+                padding: 10px 10px;
+                box-sizing: border-box;
+            }
+
+            .calculator-body {
+                width: 100%;
+            }
+
+            .calculator-body .title {
+                font-size: 2.5rem;
+                line-height: 2.5rem;
+            }
+
+            .calculator-body .paragraph {
+                margin: 1rem 0px 1rem 0px;
+                font-size: 1.1rem;
+                line-height: 1.2rem;
+
+            }
+
+            .calculator-body .calculator-values-conatiner {
+                border: 1px solid #e0e7ef;
+                color: #425164;
+                display: block;
+                width: 100%;
+            }
+
+            .calculator-values-conatiner .calculator-input-section {
+                width: 100%;
+            }
+
+
+
+            .calculator-input-section .seeking-amount-value {
+                font-size: 17px;
+                line-height: 20px;
+                color: #a0a5aa;
+            }
+
+            .calculator-input-section #seeking-amount-value-slider {
+                background: none;
+            }
+
+            .calculator-values-conatiner .calculator-output-section {
+                padding-top: 50px;
+                width: 100%;
+                font-size: 18px;
+                line-height: 21px;
+                padding: 50px 30px 100px 30px;
+                text-align: center;
+                box-sizing: border-box;
+
+            }
+
+            .calculator-output-section .btn #btn2 {
+                border-radius: 3px;
+                height: 40px;
+                border-color: #dedede;
+                padding: 0 50px;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <div class="calculator-body">
+            <h1 class="title">
+                CALCULATE YOUR HOME LOAN REPAYMENTS
+            </h1>
+            <p class="paragraph">
+                Find out your estimated home loan repayments as well as ways to pay off your home loan faster. This
+                calculator can also be used to generate a Key Facts Sheet for a NAB product with a principal and
+                interest period.</p>
+            <div class="calculator-values-conatiner">
+                <div class="calculator-input-section">
+                    <div class="input">
+                        <p>Loan Amount ($)</p>
+                        <div class="input-style">
+                            <input type="text" class="input-type-select"
+                                onkeyup="add_remove_thousand_separator(this.value);" min="5000" step="1" max="250000"
+                                value="10000" id="amount-seeking-slider">
+                        </div>
+                    </div>
+                    <div class="input">
+                        <p>Loan Term (Years)</p>
+                        <input name="" value="5" class="input-type-select" id="term-length" oninput="getvalues();">
+                    </div>
+                    <div class="input">
+                        <p>Interest Rate (%)</p>
+                        <input type="text" name="" value="2.5" class="input-type-select" id="interest-rate"
+                            oninput="getvalues();">
+                    </div>
+                    <div class="input">
+                        <p>Choose Repayment Frequency</p>
+                        <select name="" class="input-type-select" id="repayment-mode" oninput="changeMode(this.value);">
+                            <option value="1" selected>Monthly</option>
+                            <option value="2">Fortnightly</option>
+                            <option value="3">Weekly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="calculator-output-section">
+                    <div class=" btn">
+                        <button class="output-button" id="btn1" onclick="changeMode(1);">Principal & Interest</button>
+                        <button class="output-button" id="btn2" onclick="changeMode(4);">Interest Only</button>
+                    </div>
+
+                    <h3 style="font-size: 24px; line-height: 22px; letter-spacing: 1.8px" id="outputText">Estimated
+                        Monthly Repayments</h3>
+                    <h1 id="output-values">$ 2,700.00</h1>
+                    <h3 style="line-height: 30px; padding: 0px 30px ;">
+                        READY TO APPLY FOR CONDITIONAL APPROVAL?
+                    </h3>
+                    <p>To save you time with filling out our online forms, we may pass through some of the information
+                        you entered into the calculators. You’ll be able to review and edit this at any time.</p>
+                    <button class="output-button"><a href="http://www.lendpire.com.au/question-form/">  Apply Online</button>
+                </div>
+            </div>
+            <p class="paragraph" style="color: #ff5722;">
+                Disclaimer: Any calculation made using this calculator is intended as a guide only. It is for
+                illustrative purposes only, and based on the information you provide. Quoted repayments do not include
+                lender fees and charges.
+            </p>
+        </div>
+    </div>
+    <script>
+        let
+            amountSeekingSliderElement,
+            termLengthElement,
+            interestRateElement,
+            outputValueElement,
+            repaymentModeElement,
+            outputModeElement,
+            outputTextElement
+        var amountSeeking,
+            termLength,
+            interestRate,
+            outputValue,
+            monthly,
+            fortnightly,
+            weekly,
+            interest;
+        toggler = 1;
+        getelement();
+        function getelement() {
+            amountSeekingSliderElement = document.getElementById("amount-seeking-slider");
+            termLengthElement = document.getElementById("term-length");
+            interestRateElement = document.getElementById("interest-rate");
+            outputValueElement = document.getElementById("output-values");
+            outputValueElement = document.getElementById("output-values");
+            repaymentModeElement = document.getElementById("repayment-mode");
+            outputTextElement = document.getElementById("outputText");
+            add_remove_thousand_separator(amountSeekingSliderElement.value);
+        }
+        function getvalues() {
+            changeMode();
+            amountSeeking = remove_thousands_separators(amountSeekingSliderElement.value);
+            termLength = termLengthElement.value;
+            interestRate = interestRateElement.value;
+            resultcalculate();
+        }
+        function resultcalculate() {
+            interestRate /= 1200;
+            termLength *= 12;
+            console.log(amountSeeking);
+            console.log(interestRate);
+            console.log(termLength);
+            outputValue = (amountSeeking * (interestRate * Math.pow(1 + interestRate, termLength)) / (Math.pow(1 + interestRate, termLength) - 1));
+
+            outputValue = outputValue * termLength;
+            interest = outputValue - amountSeeking;
+            monthly = (outputValue / termLength);
+            fortnightly = (outputValue / (termLengthElement.value * 26));
+            weekly = (outputValue / (termLengthElement.value * 52));
+            changeMode(toggler);
+        }
+        function add_remove_thousand_separator(n) {
+            if (n != "") {
+                num = remove_thousands_separators(n);
+                amountSeekingSliderElement.value = num;
+                getvalues();
+                num = thousands_separators(num);
+                amountSeekingSliderElement.value = num;
+            }
+        }
+        function thousands_separators(num) {
+            num = num.toString().split(".");
+            num[0] = num[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num.join(".");
+        }
+        function remove_thousands_separators(num) {
+            num = num.replace(/,/g, "");
+            num = parseInt(num);
+            return num;
+        }
+
+        function changeMode(value) {
+            if (value == 1) {
+                outputTextElement.innerHTML = " Estimated Monthly Repayments";
+                outputValueElement.innerHTML = "$ " + thousands_separators(Math.round(monthly));
+                toggler = 1;
+                toggleToInterestPrinciple();
+
+            }
+            else if (value == 2) {
+                outputTextElement.innerHTML = "Estimated Fortnightly Repayments";
+                outputValueElement.innerHTML = "$ " + thousands_separators(Math.round(fortnightly));
+                toggler = 2;
+                toggleToInterestPrinciple();
+            }
+            else if (value == 3) {
+                outputTextElement.innerHTML = "Estimated Weekly Repayments";
+                outputValueElement.innerHTML = "$ " + thousands_separators(Math.round(weekly));
+                toggler = 3;
+                toggleToInterestPrinciple();
+
+            }
+            else if (value == 4) {
+                outputTextElement.innerHTML = "Total Interest Payable";
+                outputValueElement.innerHTML = "$ " + thousands_separators(Math.round(interest));
+                toggler = 4;
+                repaymentModeElement.value = 1;
+                document.getElementById("btn1").style.backgroundColor = "transparent"
+                document.getElementById("btn1").style.border = "2px solid"
+                document.getElementById("btn1").style.borderColor = "#fff"
+                document.getElementById("btn2").style.backgroundColor = "#c20000"
+                document.getElementById("btn2").style.borderColor = "#c20000"
+            }
+        }
+        function toggleToInterestPrinciple() {
+            document.getElementById("btn2").style.backgroundColor = "transparent"
+            document.getElementById("btn2").style.border = "2px solid"
+            document.getElementById("btn2").style.borderColor = "#fff"
+            document.getElementById("btn1").style.backgroundColor = "#c20000"
+            document.getElementById("btn1").style.borderColor = "#c20000"
+        }
+
+    </script>
+</body>
+
+</html>
